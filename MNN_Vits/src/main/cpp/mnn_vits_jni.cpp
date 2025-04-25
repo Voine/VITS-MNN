@@ -45,3 +45,9 @@ Java_com_example_mnn_1vits_MnnVitsJni_startVitsInfer(JNIEnv *env, jobject thiz,
     env->SetFloatArrayRegion(jResult, 0, static_cast<jsize>(audio.size()), audio.data());
     return jResult;
 }
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_example_mnn_1vits_MnnVitsJni_setAudioLengthScale(JNIEnv *env, jobject thiz,
+                                                            jfloat length_scale) {
+    MNN_VITS::set_length_scale(length_scale);
+}

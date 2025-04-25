@@ -29,6 +29,7 @@ namespace MNN_VITS {
     static std::shared_ptr<MNN::Express::Module> g_dp_module = nullptr;
     static std::shared_ptr<MNN::Express::Module> g_emb_module = nullptr;
     static std::shared_ptr<MNN::Express::Module> g_flow_module = nullptr;
+    static float length_scale_f = 1.2f;
 
 
     template <typename T>
@@ -121,7 +122,7 @@ namespace MNN_VITS {
     MNN::Express::VARP translate_w_ceil(MNN::Express::VARP logw, MNN::Express::VARP x_mask) {
         // w = torch.exp(logw) * x_mask * length_scale
         // w_ceil = torch.ceil(w)
-        auto length_scale = MNN::Express::_Scalar<float>(1.f);
+        auto length_scale = MNN::Express::_Scalar<float>(length_scale_f);
         auto w = MNN::Express::_Exp(std::move(logw)) * std::move(x_mask) * length_scale;
         auto w_ceil = MNN::Express::_Ceil(w);
         return w_ceil;
@@ -299,8 +300,11 @@ namespace MNN_VITS {
         g_dp_model_path.clear();
         g_emb_model_path.clear();
         g_flow_model_path.clear();
-//        module.reset();
         g_initialized = false;
+    }
+
+    void set_length_scale(float length_scale) {
+        length_scale_f = length_scale;
     }
 
     void set_vits_model_path(

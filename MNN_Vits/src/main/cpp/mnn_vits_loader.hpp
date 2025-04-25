@@ -20,6 +20,8 @@ namespace MNN_VITS {
             const std::string &emb_model_path,
             const std::string &flow_model_path);
 
+    void set_length_scale(float length_scale);
+
 // 开始音频推理，返回推理结果（音频数据数组）
     std::vector<float> start_audio_infer(const std::vector<int>& input_seq, int spkid);
 } // namespace vits

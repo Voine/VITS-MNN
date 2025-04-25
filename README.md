@@ -9,8 +9,10 @@
 本工程提供了一个示例，基于 MNN 实现了离线推理版本的 VITS，目前仅适配了中文，在 [VITS-uma-genshin-honkai](https://huggingface.co/spaces/zomehwh/vits-uma-genshin-honkai/tree/main) 上进行了验证：
 
 - 🏗 **MNN** ：基于 MNN 推理框架实现 VITS 的整个推理流程，推理参考自 [script](onnx_export/script) 内的 onnx 推理代码。
+- 🧠 如果你希望用效果更好一些的模型，可以尝试 [Bert-VITS2-MNN](https://github.com/Voine/Bert-VITS2-MNN), 但本仓库版本模型体积会更小。
 
 整个过程在 Android 端全程 **离线推理** 无需任何联网服务.
+
 
 ---
 

@@ -2,7 +2,6 @@ package com.example.mnnvits
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mnn_vits.MnnVitsJni
@@ -49,6 +48,7 @@ class VoiceViewModel : ViewModel() {
     fun init(context: Context) {
         setLoading(true, "正在初始化...")
         viewModelScope.launch(Dispatchers.IO) {
+            val startTime = System.currentTimeMillis()
             setLoading(true, "正在移动模型...")
             val absPath = initModel(context)
 
@@ -69,6 +69,9 @@ class VoiceViewModel : ViewModel() {
             setDefaultState()
             startVoiceCheckLoop(context)
             setLoading(false)
+            val endTime = System.currentTimeMillis()
+            Log.d("init", "init time: ${endTime - startTime} ms")
+            updateLogcat("初始化完成，耗时: ${endTime - startTime} ms")
         }
     }
 
@@ -83,7 +86,7 @@ class VoiceViewModel : ViewModel() {
                     MnnVitsJni.startVitsInfer(cleanedText, currentSpkId)
                 }
                 val endTime = System.currentTimeMillis()
-                Toast.makeText(context, "推理耗时: ${endTime - startTime} ms", Toast.LENGTH_SHORT).show()
+                updateLogcat("推理完成，耗时: ${endTime - startTime} ms")
                 Log.d("runVits", "result: ${result.joinToString(",", limit = 10)}")
                 Log.d("runVits", "infer time: ${endTime - startTime} ms")
                 setLoading(false)
@@ -151,6 +154,7 @@ class VoiceViewModel : ViewModel() {
             val cleanedText = cleaner.convertText(showText)
             val endTime = System.currentTimeMillis()
             Log.d("runVits", "cleanedText time: ${endTime - startTime} ms")
+            updateLogcat("转义文本完成，耗时: ${endTime - startTime} ms")
             vitsInferChannel.trySend(cleanedText.firstOrNull()!!)
         }
     }
@@ -182,6 +186,19 @@ class VoiceViewModel : ViewModel() {
         val sendState = _uiState.replayCache.firstOrNull() ?: UIState()
         _uiState.tryEmit(sendState.copy(isLoading = loading, loadingHint = hint))
     }
+
+    fun updateLengthScale(lengthScale: Float) {
+        val sendState = _uiState.replayCache.firstOrNull() ?: UIState()
+        _uiState.tryEmit(sendState.copy(currentLengthScale = lengthScale))
+        MnnVitsJni.setAudioLengthScale(lengthScale)
+    }
+
+    private fun updateLogcat(logcat: String) {
+        Log.d("updateLogcat", "logcat: $logcat")
+        val sendState = _uiState.replayCache.firstOrNull() ?: UIState()
+        val currentLogcat = sendState.logcat
+        _uiState.tryEmit(sendState.copy(logcat = "$currentLogcat\n$logcat"))
+    }
 }
 
 
@@ -190,7 +207,9 @@ data class UIState(
     val selectedCharacter: String = "",
     val isLoading: Boolean = false,
     val loadingHint: String = "",
-    val characters: List<String> = emptyList()
+    val characters: List<String> = emptyList(),
+    val logcat: String = "",
+    val currentLengthScale: Float = 1.2f
 )
 
 fun <T> CancellableContinuation<T>.safeResume(value: T) {

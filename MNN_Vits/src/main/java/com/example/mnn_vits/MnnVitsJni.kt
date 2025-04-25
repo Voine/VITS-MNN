@@ -13,6 +13,8 @@ object MnnVitsJni {
 
     external fun destroyVitsLoader()
 
+    external fun setAudioLengthScale(length_scale: Float)
+
     external fun setVitsModelPath(
         encoderPath: String,
         decoderPath: String,
