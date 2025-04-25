@@ -86,7 +86,7 @@ git lfs track "*.mnn"
 
 ## 💡 关于 - 自制模型替换 -
 
-1. 如果你需要替换自己的模型尝试验证，首先需要参考 [VITS](https://github.com/jaywalnut310/vits) [VITS-fast-fine-tuning](https://github.com/Plachtaa/VITS-fast-fine-tuning)内的说明进行训练得到桌面端模型, 作者基于 [VITS-uma-genshin-honkai](https://huggingface.co/spaces/zomehwh/vits-uma-genshin-honkai/tree/main) 模型进行了验证，其他的 VITS 仓库模型暂未验证
+1. 如果你需要替换自己的模型尝试验证，首先需要参考 [VITS-fast-fine-tuning](https://github.com/Plachtaa/VITS-fast-fine-tuning) 内的说明进行训练得到桌面端模型, 作者基于 [VITS-uma-genshin-honkai](https://huggingface.co/spaces/zomehwh/vits-uma-genshin-honkai/tree/main) 模型进行了验证，其他的 VITS 仓库模型暂未验证
 2. 将你的 pth 模型转换成 onnx, onnx 导出脚本在  [script](onnx_export/script)
 3. 使用 [MNN Convert](https://mnn-docs.readthedocs.io/en/latest/tools/convert.html) 将所有模块的 onnx 模型转成 mnn
 4. 放到 assets/mnn 内，如果你的模型名字有变化，则需要修改 VoiceViewModel.kt 内关于模型路径加载的部分。
@@ -106,7 +106,7 @@ git lfs track "*.mnn"
 ├──── src/main/                 
 │           ├── assets                    # mnn vits model
 │           ├── java/ChineseCleaners      # Text preprocess code
-├── MNN_Vits                              # Bert-VITS2 infer code
+├── MNN_Vits                              # VITS infer code
 ├── third_party                           # provide hpp
 
 ```
@@ -115,8 +115,8 @@ git lfs track "*.mnn"
 
 ## 💡 类似仓库
 
-[VITS-Android-ncnn](https://github.com/weirdseed/Vits-Android-ncnn)
-[Sherpa-onnx-tts-android](https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxTts)
+- [VITS-Android-ncnn](https://github.com/weirdseed/Vits-Android-ncnn)
+- [Sherpa-onnx-tts-android](https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxTts)
 
 ---
 
