@@ -1,0 +1,2 @@
+- model 目录内是原始的 onnx 导出文件
+- script 内为 onnx 导出脚本
