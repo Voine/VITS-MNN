@@ -131,6 +131,7 @@ git lfs track "*.mnn"
 - [VITS-uma-genshin-honkai](https://huggingface.co/spaces/zomehwh/vits-uma-genshin-honkai/tree/main)
 - [MNN](https://github.com/alibaba/MNN)
 
+- 感谢 [GGDDBB](https://github.com/GGDDBB) 提供的文本预处理相关的工作。
 
 ---
 
